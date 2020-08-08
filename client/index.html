@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>The Shooting Game</title>
+    <meta charset="UTF-8" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+
+  <style>
+    body {
+      margin: 0;
+      color: #6a6f8c;
+      background: #c8c8c8;
+      font: 600 16px/18px "Open Sans", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    *,
+    :after,
+    :before {
+      box-sizing: border-box;
+    }
+
+    .clearfix:after,
+    .clearfix:before {
+      content: "";
+      display: table;
+    }
+
+    .clearfix:after {
+      clear: both;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .login-wrap {
+      width: 100%;
+      margin: auto;
+      max-width: 400px;
+      min-height: 470px;
+      position: relative;
+      margin-top: 50px;
+      background: url(https://i.pinimg.com/originals/b8/bd/74/b8bd7446bd42b7e3cb6bc7f03a6401a3.jpg)
+        no-repeat center;
+      box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24),
+        0 17px 50px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .login-html {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      padding: 90px 70px 50px 70px;
+      background: rgba(40, 57, 101, 0.9);
+    }
+
+    .login-html .sign-in-htm,
+    .login-html .sign-up-htm {
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      position: absolute;
+      transform: rotateY(180deg);
+      backface-visibility: hidden;
+      transition: all 0.4s linear;
+    }
+
+    .login-html .sign-in,
+    .login-html .sign-up,
+    .login-form .group .check {
+      display: none;
+    }
+
+    .login-html .tab,
+    .login-form .group .label,
+    .login-form .group .button {
+      text-transform: uppercase;
+    }
+
+    .login-html .tab {
+      font-size: 22px;
+      margin-right: 15px;
+      padding-bottom: 5px;
+      margin: 0 15px 10px 0;
+      display: inline-block;
+      border-bottom: 2px solid transparent;
+    }
+
+    .login-html .sign-in:checked + .tab,
+    .login-html .sign-up:checked + .tab {
+      color: #fff;
+      border-color: #1161ee;
+    }
+
+    .login-form {
+      min-height: 345px;
+      position: relative;
+      perspective: 1000px;
+      transform-style: preserve-3d;
+    }
+
+    .login-form .group {
+      margin-bottom: 15px;
+    }
+
+    .login-form .group .label,
+    .login-form .group .input,
+    .login-form .group .button {
+      width: 100%;
+      color: #fff;
+      display: block;
+    }
+
+    .login-form .group .input,
+    .login-form .group .button {
+      border: none;
+      padding: 15px 20px;
+      border-radius: 25px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .login-form .group input[data-type="password"] {
+      text-security: circle;
+      -webkit-text-security: circle;
+    }
+
+    .login-form .group .label {
+      color: #aaa;
+      font-size: 12px;
+    }
+
+    .login-form .group .button {
+      background: #1161ee;
+    }
+
+    .login-form .group label .icon {
+      width: 15px;
+      height: 15px;
+      border-radius: 2px;
+      position: relative;
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .login-form .group label .icon:before,
+    .login-form .group label .icon:after {
+      content: "";
+      width: 10px;
+      height: 2px;
+      background: #fff;
+      position: absolute;
+      transition: all 0.2s ease-in-out 0s;
+    }
+
+    .login-form .group label .icon:before {
+      left: 3px;
+      width: 5px;
+      bottom: 6px;
+      transform: scale(0) rotate(0);
+    }
+
+    .login-form .group label .icon:after {
+      top: 6px;
+      right: 0;
+      transform: scale(0) rotate(0);
+    }
+
+    .login-form .group .check:checked + label {
+      color: #fff;
+    }
+
+    .login-form .group .check:checked + label .icon {
+      background: #1161ee;
+    }
+
+    .login-form .group .check:checked + label .icon:before {
+      transform: scale(1) rotate(45deg);
+    }
+
+    .login-form .group .check:checked + label .icon:after {
+      transform: scale(1) rotate(-45deg);
+    }
+
+    .login-html
+      .sign-in:checked
+      + .tab
+      + .sign-up
+      + .tab
+      + .login-form
+      .sign-in-htm {
+      transform: rotate(0);
+    }
+
+    .login-html .sign-up:checked + .tab + .login-form .sign-up-htm {
+      transform: rotate(0);
+    }
+
+    .hr {
+      height: 2px;
+      margin: 60px 0 50px 0;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .foot-lnk {
+      text-align: center;
+    }
+    .top-scores {
+      padding: 10px;
+      text-align: center;
+      width: 100%;
+    }
+    .leaderboard {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      min-height: 50%;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    }
+    .score {
+      text-align: center;
+    }
+    .top {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .chat-contn {
+      padding: 40px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    }
+    .chat-box {
+      text-align: left;
+      min-width: 100%;
+      min-height: 140px;
+      overflow-x: hidden;
+      max-height: 200px;
+      overflow-y: scroll;
+      padding: 11px 0;
+    }
+    .game-canvas {
+      /* width: 600px;
+      height: 500px; */
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    }
+    .canvas-title {
+      font-size: 29px;
+      padding: 20px;
+      text-align: center;
+    }
+    .chat-input {
+      width: 100%;
+      padding: 5px;
+      border-radius: 5px;
+      border: 1px solid gray;
+    }
+
+    @media screen and (max-width: 720px) {
+      .top {
+        flex-wrap: wrap;
+      }
+      /* .game-canvas{
+        width: 300px;
+      } */
+    }
+
+    .timer {
+      padding: 40px;
+      text-align: center;
+    }
+  </style>
+  <!-- <img
+    id="scream"
+    width="50"
+    height="50"
+    src="https://www.w3schools.com/tags/img_the_scream.jpg"
+    alt="The Scream"
+  /> -->
+  <div class="">
+    <a href="#" id="modal" data-toggle="modal" data-target="#basicModal"> </a>
+    <div
+      class="modal fade"
+      id="basicModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="basicModal"
+      aria-hidden="true"
+    >
+      <!-- <div class="modal" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true"> -->
+
+      <!-- Add Modal size here. modal-lg for large and modal-sm for small. -->
+      <div class="modal-dialog modal-lg">
+        <!-- The contents of the modal. Should include header, body and footer -->
+        <div class="modal-content">
+          <!-- Title and close button -->
+          <div class="modal-header">
+            <!-- Close button (X). data-dismiss tells Bootstrap which element to hide -->
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-hidden="true"
+            >
+              &times;
+            </button>
+
+            <!-- Title -->
+            <h4 class="modal-title" id="myModalLabel">
+              Hurrayy..!! The Game has Finished
+            </h4>
+            <h5 class="modal-title" id="myModalLabel">
+              Here Are the Top 5 Scorers
+            </h5>
+          </div>
+
+          <!-- Body. Content goes here. -->
+          <div id="modalBody" class="modal-body">
+            <!-- data-interval="false" prevents the carousel from cycling automatically -->
+          </div>
+
+          <!-- Footer, place action buttons inside the footer. -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="signDiv" class="login-wrap">
+    <div class="login-html">
+      <input
+        autocomplete="false"
+        id="tab-1"
+        type="radio"
+        name="tab"
+        class="sign-in"
+        checked
+      /><label for="tab-1" class="tab">Sign In</label>
+      <input
+        autocomplete="false"
+        id="tab-2"
+        type="radio"
+        name="tab"
+        class="sign-up"
+      /><label for="tab-2" class="tab">Sign Up</label>
+      <div class="login-form">
+        <div class="sign-in-htm">
+          <div class="group">
+            <label for="signInDiv-username" class="label">Username</label>
+            <input
+              autocomplete="false"
+              id="signInDiv-username"
+              type="text"
+              class="input"
+            />
+          </div>
+          <div class="group">
+            <label for="signInDiv-password" class="label">Password</label>
+            <input
+              id="signInDiv-password"
+              type="password"
+              class="input"
+              data-type="password"
+            />
+          </div>
+          <div class="hr"></div>
+          <div class="group">
+            <input
+              id="signDiv-signIn"
+              type="submit"
+              class="button"
+              value="Sign In"
+            />
+          </div>
+        </div>
+        <div class="sign-up-htm">
+          <div class="group">
+            <label for="signUpDiv-username" class="label">Username</label>
+            <input
+              autocomplete="false"
+              id="signUpDiv-username"
+              type="text"
+              class="input"
+            />
+          </div>
+          <div class="group">
+            <label for="signUpDiv-password" class="label">Password</label>
+            <input
+              id="signUpDiv-password"
+              type="password"
+              class="input"
+              data-type="password"
+            />
+          </div>
+          <div class="hr"></div>
+          <div class="group">
+            <input
+              type="submit"
+              id="signDiv-signUp"
+              class="button"
+              value="Sign Up"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="gameDiv" style="display: none;">
+    <div style="text-align: center;" id="userAvatar"></div>
+    <div class="top">
+      <div class="canvas">
+        <div class="canvas-title">Play Here</div>
+        <canvas id="ctx" width="500" height="500" class="game-canvas"></canvas>
+      </div>
+      <div class="top-scores">
+        <div id="leaderboard" class="leaderboard">
+          <div class="top-scores">Top Scorers:</div>
+        </div>
+        <div class="chat-contn">
+          <div style="text-align: center;">Hello!</div>
+          <div id="chat-text" class="chat-box"></div>
+
+          <form id="chat-form">
+            <input
+              autocomplete="false"
+              id="chat-input"
+              type="text"
+              placeholder="Chat with other players..."
+              class="chat-input"
+            />
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="timer">Game Ends In: <span id="time">02:00</span> minutes!</div>
+  </div>
+  <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+  <script>
+    var userName = "";
+    window.onload = function () {
+      sessionStorage.clear();
+    };
+
+    var socket = io();
+    var players = [];
+
+    //sign
+    var signDiv = document.getElementById("signDiv");
+
+    var signInDivUsername = document.getElementById("signInDiv-username");
+    var signInDivPassword = document.getElementById("signInDiv-password");
+
+    var signUpDivUsername = document.getElementById("signUpDiv-username");
+    var signUpDivPassword = document.getElementById("signUpDiv-password");
+
+    var signDivSignIn = document.getElementById("signDiv-signIn");
+    var signDivSignUp = document.getElementById("signDiv-signUp");
+
+    signDivSignIn.onclick = function () {
+      socket.emit("signIn", {
+        username: signInDivUsername.value,
+        password: signInDivPassword.value,
+      });
+      socket.send("signIn", {
+        username: signInDivUsername.value,
+        password: signInDivPassword.value,
+      });
+    };
+    signDivSignUp.onclick = function () {
+      socket.emit("signUp", {
+        username: signUpDivUsername.value,
+        password: signUpDivPassword.value,
+      });
+    };
+
+    const allPlayers = [];
+    socket.on("add_avatar", ({ number }) => {
+      const img = document.createElement("img");
+      img.src = `https://avatars.dicebear.com/api/male/${number}.svg?w=40&h=40`;
+      img.width = "40";
+      img.height = "40";
+      document.getElementById("userAvatar").appendChild(img);
+    });
+
+    socket.on("signInResponse", function (data, values) {
+      if (data.success) {
+        signDiv.style.display = "none";
+        gameDiv.style.display = "inline-block";
+        const username = data.res[0].username;
+        sessionStorage.setItem("currentUserName", username);
+        showCounter();
+      } else alert("Sign in unsuccessul.");
+    });
+    socket.on("signUpResponse", function (data) {
+      if (data.success) {
+        alert("Sign up successul.");
+      } else alert("Sign up unsuccessul.");
+    });
+
+    //chat
+    var chatText = document.getElementById("chat-text");
+    var chatInput = document.getElementById("chat-input");
+    var chatForm = document.getElementById("chat-form");
+
+    function showCounter() {
+      var fiveMinutes = 60,
+        display = document.querySelector("#time");
+      startTimer(fiveMinutes, display);
+      // userName = window.prompt("Your nickname?");
+    }
+
+    socket.on("addToChat", function (data) {
+      chatText.innerHTML += "<div>" + data + "</div>";
+    });
+    socket.on("evalAnswer", function (data) {
+      console.log(data);
+    });
+
+    chatForm.onsubmit = function (e) {
+      e.preventDefault();
+      if (chatInput.value[0] === "/")
+        socket.emit("evalServer", chatInput.value.slice(1));
+      else socket.emit("sendMsgToServer", chatInput.value);
+      chatInput.value = "";
+    };
+
+    //game
+    var ctx = document.getElementById("ctx").getContext("2d");
+    ctx.font = "30px Arial";
+    var hasIMage = false;
+    var Player = function (initPack) {
+      var self = {};
+      self.id = initPack.id;
+      self.number = initPack.number;
+      self.x = initPack.x;
+      self.y = initPack.y;
+      self.hp = initPack.hp;
+      self.hpMax = initPack.hpMax;
+      self.score = initPack.score;
+      self.name = initPack.name;
+      self.draw = function () {
+        var hpWidth = (30 * self.hp) / self.hpMax;
+        ctx.fillRect(self.x - hpWidth / 2, self.y - 40, hpWidth, 4);
+        // ctx.fillText(self.number, self.x, self.y);
+        // ctx.fillText(self.score, self.x, self.y - 60);
+        const name = initPack.name + initPack.number;
+        var playerImage = players.find((player) => player.id === initPack.id);
+        const img = document.createElement("img");
+        const imgURL = `https://avatars.dicebear.com/api/male/${initPack.number}.svg?w=40&h=40`;
+        img.src = imgURL;
+        img.width = "40";
+        img.height = "40";
+        if (!hasIMage) {
+          hasIMage = true;
+          ctx.drawImage(img, self.x - 15, self.y - 30);
+        } else {
+          ctx.drawImage(img, self.x - 15, self.y - 30);
+        }
+      };
+
+      Player.list[self.id] = self;
+
+      return self;
+    };
+    Player.list = {};
+
+    var Bullet = function (initPack) {
+      var self = {};
+      self.id = initPack.id;
+      self.x = initPack.x;
+      self.y = initPack.y;
+
+      self.draw = function () {
+        ctx.fillRect(self.x - 5, self.y - 5, 10, 10);
+      };
+
+      Bullet.list[self.id] = self;
+      return self;
+    };
+    Bullet.list = {};
+
+    socket.on("init", function (data) {
+      //{ player : [{id:123,number:'1',x:0,y:0},{id:1,number:'2',x:0,y:0}], bullet: []}
+      for (var i = 0; i < data.player.length; i++) {
+        new Player(data.player[i]);
+      }
+      for (var i = 0; i < data.bullet.length; i++) {
+        new Bullet(data.bullet[i]);
+      }
+    });
+    const drawLeaderBoard = (data) => {
+      data.player
+        .sort((x, y) => y.score - x.score)
+        .map((player) => {
+          const h1 = document.createElement("h1");
+          h1.innerHTML =
+            '<h1 style="text-align:center;" >' +
+            `${player.name}` +
+            "    " +
+            `${player.score}` +
+            "</h1>";
+          h1.id = player.id;
+          const hasNode = document.getElementById(h1.id.toString());
+          if (hasNode) {
+            document.getElementById("leaderboard").replaceChild(h1, hasNode);
+          } else {
+            document.getElementById("leaderboard").appendChild(h1);
+          }
+        });
+    };
+    function startTimer(duration, display) {
+      var timer = duration,
+        minutes,
+        seconds;
+      const interval = setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+          gameDiv.style.display = "none";
+          signDiv.style.display = "block";
+          const modalBody = document.getElementById("modalBody");
+          document.getElementById("modal").click();
+          let innerHTML = "";
+          players.map((player) => {
+            innerHTML +=
+              '<h1 style="text-align:center;" >' +
+              `${player.name}` +
+              "    " +
+              `${player.score}` +
+              "</h1>" +
+              "<br />";
+          });
+          modalBody.innerHTML = innerHTML;
+          localStorage.clear();
+          clearInterval(interval);
+        }
+      }, 1000);
+    }
+
+    var flag = false;
+    socket.on("update", function (data) {
+      const changeInScore = data.player.find((playerData) => {
+        const prePlayer = players.find((x) => x.id === playerData.id);
+        if (prePlayer && playerData.id === prePlayer.id) {
+          if (playerData.score !== prePlayer.score) {
+            players = data.player;
+            document.getElementById("leaderboard").innerHTML = "";
+            drawLeaderBoard(data);
+          }
+        }
+      });
+      if (data.player.length !== players.length) {
+        if (document.getElementById("leaderboard")) {
+          players = data.player;
+        }
+        drawLeaderBoard(data);
+      }
+      //{ player : [{id:123,x:0,y:0},{id:1,x:0,y:0}], bullet: []}
+      for (var i = 0; i < data.player.length; i++) {
+        var pack = data.player[i];
+        var p = Player.list[pack.id];
+        if (p) {
+          if (pack.x !== undefined) p.x = pack.x;
+          if (pack.y !== undefined) p.y = pack.y;
+          if (pack.hp !== undefined) p.hp = pack.hp;
+          if (pack.score !== undefined) p.score = pack.score;
+        }
+      }
+      for (var i = 0; i < data.bullet.length; i++) {
+        var pack = data.bullet[i];
+        var b = Bullet.list[data.bullet[i].id];
+        if (b) {
+          if (pack.x !== undefined) b.x = pack.x;
+          if (pack.y !== undefined) b.y = pack.y;
+        }
+      }
+    });
+
+    socket.on("remove", function (data) {
+      //{player:[12323],bullet:[12323,123123]}
+      for (var i = 0; i < data.player.length; i++) {
+        delete Player.list[data.player[i]];
+      }
+      for (var i = 0; i < data.bullet.length; i++) {
+        delete Bullet.list[data.bullet[i]];
+      }
+    });
+
+    setInterval(function () {
+      ctx.clearRect(0, 0, 500, 500);
+      for (var i in Player.list) Player.list[i].draw();
+      for (var i in Bullet.list) Bullet.list[i].draw();
+    }, 40);
+
+    document.onkeydown = function (event) {
+      if (event.keyCode === 68)
+        //d
+        socket.emit("keyPress", { inputId: "right", state: true });
+      else if (event.keyCode === 83)
+        //s
+        socket.emit("keyPress", { inputId: "down", state: true });
+      else if (event.keyCode === 65)
+        //a
+        socket.emit("keyPress", { inputId: "left", state: true });
+      else if (event.keyCode === 87)
+        // w
+        socket.emit("keyPress", { inputId: "up", state: true });
+    };
+    document.onkeyup = function (event) {
+      if (event.keyCode === 68)
+        //d
+        socket.emit("keyPress", { inputId: "right", state: false });
+      else if (event.keyCode === 83)
+        //s
+        socket.emit("keyPress", { inputId: "down", state: false });
+      else if (event.keyCode === 65)
+        //a
+        socket.emit("keyPress", { inputId: "left", state: false });
+      else if (event.keyCode === 87)
+        // w
+        socket.emit("keyPress", { inputId: "up", state: false });
+    };
+
+    document.onmousedown = function (event) {
+      socket.emit("keyPress", { inputId: "attack", state: true });
+    };
+    document.onmouseup = function (event) {
+      socket.emit("keyPress", { inputId: "attack", state: false });
+    };
+    document.onmousemove = function (event) {
+      var x = -250 + event.clientX - 8;
+      var y = -250 + event.clientY - 8;
+      var angle = (Math.atan2(y, x) / Math.PI) * 180;
+      socket.emit("keyPress", { inputId: "mouseAngle", state: angle });
+    };
+  </script>
+</html>
